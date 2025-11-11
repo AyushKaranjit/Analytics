@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 
-// CORS middleware (optional, but useful for frontend integration)
+// CORS middleware
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -15,77 +15,79 @@ app.use((req, res, next) => {
   next();
 });
 
-// Dashboard data
-const dashboardData = {
-  dashboard: {
-    user: {
-      name: "Anjana Dhakal",
-      role: "Admin",
-    },
-    summary: {
-      totalSales: {
-        value: 983410,
-        change: "+5.34%",
-        comparisonText: "vs last week",
-      },
-      totalOrders: {
-        value: 58375,
-        change: "-2.88%",
-        comparisonText: "vs last week",
-      },
-      totalVisitors: {
-        value: 237782,
-        change: "+8.02%",
-        comparisonText: "vs last week",
-      },
-    },
-    revenueAnalytics: {
+// E-commerce Analytics data
+const ecommerceAnalyticsData = {
+  user: {
+    name: "Anjana Dhakal",
+    role: "Admin",
+  },
+  charts: [
+    {
+      id: "revenue_analytics",
+      type: "line",
+      title: "Revenue Analytics",
+      description: "Revenue and order trends over the last 8 days.",
       period: "Last 8 Days",
-      averageOrderValue: 514.52,
-      dataPoints: [
-        { date: "12 Aug", revenue: 4000, order: 2000 },
-        { date: "13 Aug", revenue: 8000, order: 3000 },
-        { date: "14 Aug", revenue: 6000, order: 4000 },
-        { date: "15 Aug", revenue: 10000, order: 5000 },
-        { date: "16 Aug", revenue: 14521, order: 7000 },
-        { date: "17 Aug", revenue: 12000, order: 6000 },
-        { date: "18 Aug", revenue: 9000, order: 4000 },
-        { date: "19 Aug", revenue: 11000, order: 5000 },
+      average_order_value: 514.52,
+      data: [
+        { date: "12 Aug", day: "Mon", revenue: 4000, orders: 2000 },
+        { date: "13 Aug", day: "Tue", revenue: 8000, orders: 3000 },
+        { date: "14 Aug", day: "Wed", revenue: 6000, orders: 4000 },
+        { date: "15 Aug", day: "Thu", revenue: 10000, orders: 5000 },
+        { date: "16 Aug", day: "Fri", revenue: 14521, orders: 7000 },
+        { date: "17 Aug", day: "Sat", revenue: 12000, orders: 6000 },
+        { date: "18 Aug", day: "Sun", revenue: 9000, orders: 4000 },
+        { date: "19 Aug", day: "Mon", revenue: 11000, orders: 5000 },
       ],
     },
-    monthlyTarget: {
-      percentage: 85,
-      change: "+8.02% from last month",
-      status: "Great Progress!",
-      message:
-        "Our achievement increased by NPR 200,000 Let's reach 100% next month",
-      target: 600000,
-      revenue: 510000,
-      totalGoal: 3400000,
-    },
-    topCategories: {
+    {
+      id: "top_categories",
+      type: "pie",
+      title: "Top Categories",
+      description: "Sales distribution across product categories.",
       total: 3400000,
-      categories: [
-        { name: "Electronics", value: 1200000 },
-        { name: "Fashion", value: 950000 },
-        { name: "Home & Kitchen", value: 750000 },
-        { name: "Beauty & Personal Care", value: 500000 },
-      ],
+      data: {
+        Electronics: 1200000,
+        Fashion: 950000,
+        "Home & Kitchen": 750000,
+        "Beauty & Personal Care": 500000,
+      },
     },
-    activeUser: {
+    {
+      id: "traffic_sources",
+      type: "donut",
+      title: "Traffic Sources",
+      description: "Distribution of traffic sources to the platform.",
+      data: {
+        "Direct Traffic": 40,
+        "Organic Search": 30,
+        "Social Media": 15,
+        "Referral Traffic": 10,
+        "Email Campaigns": 5,
+      },
+    },
+    {
+      id: "active_users_by_location",
+      type: "bar",
+      title: "Active Users by Location",
+      description: "Active user distribution across cities.",
       total: 2758,
       change: "+8.02%",
-      comparisonText: "from last month",
-      countries: [
-        { name: "Kathmandu", percentage: 36 },
-        { name: "Lalitpur", percentage: 24 },
-        { name: "Bhaktapur", percentage: 17.5 },
-        { name: "Pokhara", percentage: 15 },
-      ],
+      comparison_text: "from last month",
+      data: {
+        Kathmandu: 36,
+        Lalitpur: 24,
+        Bhaktapur: 17.5,
+        Pokhara: 15,
+      },
     },
-    conversionRate: {
+    {
+      id: "conversion_funnel",
+      type: "funnel",
+      title: "Conversion Rate",
+      description: "Customer journey from product view to purchase.",
       period: "This Week",
-      metrics: [
+      data: [
         { name: "Product Views", value: 25000, change: "-5%" },
         { name: "Add to Cart", value: 12000, change: "-2%" },
         { name: "Proceed to Checkout", value: 8500, change: "+4%" },
@@ -93,207 +95,353 @@ const dashboardData = {
         { name: "Abandoned Carts", value: 3000, change: "-8%" },
       ],
     },
-    trafficSources: {
-      sources: [
-        { name: "Direct Traffic", percentage: 40 },
-        { name: "Organic Search", percentage: 30 },
-        { name: "Social Media", percentage: 15 },
-        { name: "Referral Traffic", percentage: 10 },
-        { name: "Email Campaigns", percentage: 5 },
-      ],
-    },
-    recentOrders: [
+  ],
+  cards: {
+    number_cards: [
       {
-        no: 1,
-        orderId: "#10246",
-        customer: "Krijal Koju",
-        product: "Logitech MX Keys",
-        qty: 2,
-        total: 38000,
-        status: "Pending",
+        id: "total_sales",
+        title: "Total Sales",
+        value: "983,410",
+        currency: "NPR",
+        change: "+5.34%",
+        comparison_text: "vs last week",
+        icon: "currency",
+        color: "green",
       },
       {
-        no: 2,
-        orderId: "#10245",
-        customer: "Madhan Shrestha",
-        product: "iPhone 16 Pro",
-        qty: 1,
-        total: 189999,
-        status: "Processing",
+        id: "total_orders",
+        title: "Total Orders",
+        value: "58,375",
+        change: "-2.88%",
+        comparison_text: "vs last week",
+        icon: "shopping-cart",
+        color: "red",
       },
       {
-        no: 3,
-        orderId: "#10244",
-        customer: "Saurav Ghimire",
-        product: "Samsung Galaxy Buds 2 Pro",
-        qty: 3,
-        total: 54000,
-        status: "Shipped",
-      },
-      {
-        no: 4,
-        orderId: "#10243",
-        customer: "Anjana Dhakal",
-        product: "Dell G15 Gaming Laptop",
-        qty: 1,
-        total: 165000,
-        status: "Cancelled",
-      },
-      {
-        no: 5,
-        orderId: "#10242",
-        customer: "Rabin Koirala",
-        product: "Apple AirPods Pro 2",
-        qty: 1,
-        total: 38000,
-        status: "Delivered",
-      },
-      {
-        no: 6,
-        orderId: "#10241",
-        customer: "Prasant Pant",
-        product: "Sony PlayStation 5",
-        qty: 1,
-        total: 89999,
-        status: "Shipped",
-      },
-      {
-        no: 7,
-        orderId: "#10240",
-        customer: "Sapat Chaudhary",
-        product: "ASUS Vivobook 16",
-        qty: 1,
-        total: 95000,
-        status: "Delivered",
-      },
-      {
-        no: 8,
-        orderId: "#10239",
-        customer: "Ayush Karanjit",
-        product: 'LG 27" 4K Monitor',
-        qty: 2,
-        total: 118000,
-        status: "Processing",
-      },
-      {
-        no: 9,
-        orderId: "#10238",
-        customer: "Krijal Koju",
-        product: "Razer DeathAdder V3",
-        qty: 1,
-        total: 8500,
-        status: "Delivered",
-      },
-      {
-        no: 10,
-        orderId: "#10237",
-        customer: "Madhan Shrestha",
-        product: "iPad Air M2",
-        qty: 1,
-        total: 125000,
-        status: "Cancelled",
-      },
-      {
-        no: 11,
-        orderId: "#10236",
-        customer: "Saurav Ghimire",
-        product: "Bose QuietComfort Ultra",
-        qty: 1,
-        total: 62000,
-        status: "Delivered",
-      },
-      {
-        no: 12,
-        orderId: "#10235",
-        customer: "Anjana Dhakal",
-        product: 'MacBook Pro 14" M3',
-        qty: 1,
-        total: 275000,
-        status: "Shipped",
-      },
-      {
-        no: 13,
-        orderId: "#10234",
-        customer: "Rabin Koirala",
-        product: 'Samsung 55" QLED TV',
-        qty: 1,
-        total: 145000,
-        status: "Delivered",
+        id: "total_visitors",
+        title: "Total Visitors",
+        value: "237,782",
+        change: "+8.02%",
+        comparison_text: "vs last week",
+        icon: "users",
+        color: "blue",
       },
     ],
-    recentActivity: [
+    progress_cards: [
       {
-        timestamp: "2:45 PM",
-        message: "Krijal Koju purchased 1 item totaling Rs. 38,000.",
-      },
-      {
-        timestamp: "1:15 PM",
+        id: "monthly_target",
+        title: "Monthly Target",
+        description: "Progress towards monthly revenue goal.",
+        percentage: 85,
+        change: "+8.02% from last month",
+        status: "Great Progress!",
         message:
-          "Madhan Shrestha's order #10245 status changed from 'Pending' to 'Processing'.",
-      },
-      {
-        timestamp: "11:30 AM",
-        message:
-          "Saurav Ghimire left a 5-star review for 'Bose QuietComfort Ultra'.",
-      },
-      {
-        timestamp: "10:20 AM",
-        message: "'Apple AirPods Pro 2' stock is below 8 units.",
-      },
-      {
-        timestamp: "9:15 AM",
-        message: "Anjana Dhakal's order #10243 was cancelled.",
-      },
-      {
-        timestamp: "8:30 AM",
-        message: "Prasant Pant's order #10241 was Shipped.",
+          "Our achievement increased by NPR 200,000 Let's reach 100% next month",
+        details: {
+          target: 600000,
+          revenue: 510000,
+          total_goal: 3400000,
+        },
       },
     ],
   },
+  tables: [
+    {
+      id: "recent_orders",
+      title: "Recent Orders",
+      description: "Latest orders placed on the platform.",
+      columns: [
+        "No",
+        "Order ID",
+        "Customer",
+        "Product",
+        "Qty",
+        "Total",
+        "Status",
+      ],
+      data: [
+        {
+          no: 1,
+          order_id: "#10246",
+          customer: "Krijal Koju",
+          product: "Logitech MX Keys",
+          qty: 2,
+          total: 38000,
+          status: "Pending",
+        },
+        {
+          no: 2,
+          order_id: "#10245",
+          customer: "Madhan Shrestha",
+          product: "iPhone 16 Pro",
+          qty: 1,
+          total: 189999,
+          status: "Processing",
+        },
+        {
+          no: 3,
+          order_id: "#10244",
+          customer: "Saurav Ghimire",
+          product: "Samsung Galaxy Buds 2 Pro",
+          qty: 3,
+          total: 54000,
+          status: "Shipped",
+        },
+        {
+          no: 4,
+          order_id: "#10243",
+          customer: "Anjana Dhakal",
+          product: "Dell G15 Gaming Laptop",
+          qty: 1,
+          total: 165000,
+          status: "Cancelled",
+        },
+        {
+          no: 5,
+          order_id: "#10242",
+          customer: "Rabin Koirala",
+          product: "Apple AirPods Pro 2",
+          qty: 1,
+          total: 38000,
+          status: "Delivered",
+        },
+        {
+          no: 6,
+          order_id: "#10241",
+          customer: "Prasant Pant",
+          product: "Sony PlayStation 5",
+          qty: 1,
+          total: 89999,
+          status: "Shipped",
+        },
+        {
+          no: 7,
+          order_id: "#10240",
+          customer: "Sapat Chaudhary",
+          product: "ASUS Vivobook 16",
+          qty: 1,
+          total: 95000,
+          status: "Delivered",
+        },
+        {
+          no: 8,
+          order_id: "#10239",
+          customer: "Ayush Karanjit",
+          product: 'LG 27" 4K Monitor',
+          qty: 2,
+          total: 118000,
+          status: "Processing",
+        },
+        {
+          no: 9,
+          order_id: "#10238",
+          customer: "Krijal Koju",
+          product: "Razer DeathAdder V3",
+          qty: 1,
+          total: 8500,
+          status: "Delivered",
+        },
+        {
+          no: 10,
+          order_id: "#10237",
+          customer: "Madhan Shrestha",
+          product: "iPad Air M2",
+          qty: 1,
+          total: 125000,
+          status: "Cancelled",
+        },
+        {
+          no: 11,
+          order_id: "#10236",
+          customer: "Saurav Ghimire",
+          product: "Bose QuietComfort Ultra",
+          qty: 1,
+          total: 62000,
+          status: "Delivered",
+        },
+        {
+          no: 12,
+          order_id: "#10235",
+          customer: "Anjana Dhakal",
+          product: 'MacBook Pro 14" M3',
+          qty: 1,
+          total: 275000,
+          status: "Shipped",
+        },
+        {
+          no: 13,
+          order_id: "#10234",
+          customer: "Rabin Koirala",
+          product: 'Samsung 55" QLED TV',
+          qty: 1,
+          total: 145000,
+          status: "Delivered",
+        },
+      ],
+    },
+  ],
+  activity_feed: [
+    {
+      timestamp: "2:45 PM",
+      message: "Krijal Koju purchased 1 item totaling Rs. 38,000.",
+    },
+    {
+      timestamp: "1:15 PM",
+      message:
+        "Madhan Shrestha's order #10245 status changed from 'Pending' to 'Processing'.",
+    },
+    {
+      timestamp: "11:30 AM",
+      message:
+        "Saurav Ghimire left a 5-star review for 'Bose QuietComfort Ultra'.",
+    },
+    {
+      timestamp: "10:20 AM",
+      message: "'Apple AirPods Pro 2' stock is below 8 units.",
+    },
+    {
+      timestamp: "9:15 AM",
+      message: "Anjana Dhakal's order #10243 was cancelled.",
+    },
+    {
+      timestamp: "8:30 AM",
+      message: "Prasant Pant's order #10241 was Shipped.",
+    },
+  ],
+};
+
+// Helper function to create standardized response
+const createResponse = (
+  data,
+  message = "Data fetched successfully",
+  fromCache = false
+) => {
+  return {
+    message: {
+      status: "success",
+      message: message,
+      from_cache: fromCache,
+      data: data,
+    },
+  };
 };
 
 // Routes
-// GET - Retrieve full dashboard data
+// GET - Retrieve full e-commerce analytics data
 app.get("/api/ecommerce-analytics", (req, res) => {
-  res.json(dashboardData);
+  res.json(
+    createResponse(
+      ecommerceAnalyticsData,
+      "E-commerce analytics fetched successfully"
+    )
+  );
 });
 
-// GET - Retrieve specific sections
+// GET - Retrieve summary metrics
 app.get("/api/ecommerce-analytics/summary", (req, res) => {
-  res.json(dashboardData.dashboard.summary);
+  res.json(
+    createResponse(
+      { cards: { number_cards: ecommerceAnalyticsData.cards.number_cards } },
+      "Summary metrics fetched successfully"
+    )
+  );
 });
 
-app.get("/api/ecommerce-analytics/revenue-analytics", (req, res) => {
-  res.json(dashboardData.dashboard.revenueAnalytics);
+// GET - Retrieve charts
+app.get("/api/ecommerce-analytics/charts", (req, res) => {
+  res.json(
+    createResponse(
+      { charts: ecommerceAnalyticsData.charts },
+      "Charts data fetched successfully"
+    )
+  );
 });
 
+// GET - Retrieve specific chart by ID
+app.get("/api/ecommerce-analytics/charts/:chartId", (req, res) => {
+  const chart = ecommerceAnalyticsData.charts.find(
+    (c) => c.id === req.params.chartId
+  );
+  if (chart) {
+    res.json(
+      createResponse(
+        { chart },
+        `Chart '${req.params.chartId}' fetched successfully`
+      )
+    );
+  } else {
+    res.status(404).json({
+      message: {
+        status: "error",
+        message: "Chart not found",
+        data: null,
+      },
+    });
+  }
+});
+
+// GET - Retrieve cards
+app.get("/api/ecommerce-analytics/cards", (req, res) => {
+  res.json(
+    createResponse(
+      { cards: ecommerceAnalyticsData.cards },
+      "Cards data fetched successfully"
+    )
+  );
+});
+
+// GET - Retrieve tables
+app.get("/api/ecommerce-analytics/tables", (req, res) => {
+  res.json(
+    createResponse(
+      { tables: ecommerceAnalyticsData.tables },
+      "Tables data fetched successfully"
+    )
+  );
+});
+
+// GET - Retrieve recent orders
 app.get("/api/ecommerce-analytics/recent-orders", (req, res) => {
-  res.json(dashboardData.dashboard.recentOrders);
+  const recentOrdersTable = ecommerceAnalyticsData.tables.find(
+    (t) => t.id === "recent_orders"
+  );
+  res.json(
+    createResponse(
+      { table: recentOrdersTable },
+      "Recent orders fetched successfully"
+    )
+  );
 });
 
-app.get("/api/ecommerce-analytics/recent-activity", (req, res) => {
-  res.json(dashboardData.dashboard.recentActivity);
+// GET - Retrieve activity feed
+app.get("/api/ecommerce-analytics/activity-feed", (req, res) => {
+  res.json(
+    createResponse(
+      { activity_feed: ecommerceAnalyticsData.activity_feed },
+      "Activity feed fetched successfully"
+    )
+  );
 });
 
-app.get("/api/ecommerce-analytics/top-categories", (req, res) => {
-  res.json(dashboardData.dashboard.topCategories);
-});
-
-app.get("/api/ecommerce-analytics/active-users", (req, res) => {
-  res.json(dashboardData.dashboard.activeUser);
-});
-
-app.get("/api/ecommerce-analytics/conversion-rate", (req, res) => {
-  res.json(dashboardData.dashboard.conversionRate);
-});
-
-app.get("/api/ecommerce-analytics/traffic-sources", (req, res) => {
-  res.json(dashboardData.dashboard.trafficSources);
+// GET - Retrieve user info
+app.get("/api/ecommerce-analytics/user", (req, res) => {
+  res.json(
+    createResponse(
+      { user: ecommerceAnalyticsData.user },
+      "User information fetched successfully"
+    )
+  );
 });
 
 // Health check endpoint
 app.get("/health", (req, res) => {
-  res.json({ status: "OK", message: "E-commerce Analytics API is running" });
+  res.json({
+    message: {
+      status: "success",
+      message: "E-commerce Analytics API is running",
+      data: { uptime: process.uptime(), timestamp: new Date().toISOString() },
+    },
+  });
 });
 
 // Start server
@@ -302,23 +450,20 @@ app.listen(PORT, () => {
     `E-commerce Analytics API is running on http://localhost:${PORT}`
   );
   console.log(`\nAvailable endpoints:`);
-  console.log(`  GET /api/ecommerce-analytics - Full dashboard data`);
+  console.log(`  GET /api/ecommerce-analytics - Full analytics data`);
   console.log(`  GET /api/ecommerce-analytics/summary - Summary metrics`);
+  console.log(`  GET /api/ecommerce-analytics/charts - All charts`);
   console.log(
-    `  GET /api/ecommerce-analytics/revenue-analytics - Revenue data`
+    `  GET /api/ecommerce-analytics/charts/:chartId - Specific chart`
   );
-  console.log(`  GET /api/ecommerce-analytics/recent-orders - Recent orders`);
+  console.log(`  GET /api/ecommerce-analytics/cards - All cards`);
+  console.log(`  GET /api/ecommerce-analytics/tables - All tables`);
   console.log(
-    `  GET /api/ecommerce-analytics/recent-activity - Recent activity`
+    `  GET /api/ecommerce-analytics/recent-orders - Recent orders table`
   );
-  console.log(`  GET /api/ecommerce-analytics/top-categories - Top categories`);
-  console.log(`  GET /api/ecommerce-analytics/active-users - Active user data`);
-  console.log(
-    `  GET /api/ecommerce-analytics/conversion-rate - Conversion metrics`
-  );
-  console.log(
-    `  GET /api/ecommerce-analytics/traffic-sources - Traffic sources`
-  );
+  console.log(`  GET /api/ecommerce-analytics/activity-feed - Activity feed`);
+  console.log(`  GET /api/ecommerce-analytics/user - User information`);
+  console.log(`  GET /health - Health check`);
 });
 
 module.exports = app;
