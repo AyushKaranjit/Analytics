@@ -82,9 +82,9 @@ const ecommerceAnalyticsData = {
       },
     },
     {
-      id: "conversion_funnel",
+      id: "convertion_funnel",
       type: "funnel",
-      title: "Conversion Rate",
+      title: "Convertion Rate",
       description: "Customer journey from product view to purchase.",
       period: "This Week",
       data: [
