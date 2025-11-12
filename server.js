@@ -133,7 +133,8 @@ const ecommerceAnalyticsData = {
         title: "Monthly Target",
         description: "Progress towards monthly revenue goal.",
         percentage: 85,
-        change: "+8.02% from last month",
+        change: "+8.02%",
+        comparison_text: "from last month",
         status: "Great Progress!",
         message:
           "Our achievement increased by NPR 200,000 Let's reach 100% next month",
