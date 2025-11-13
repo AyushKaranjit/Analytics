@@ -282,7 +282,8 @@ const ecommerceAnalyticsData = {
           no: 14,
           order_id: "#10233",
           customer: "Bishesh Ganesh Shrestha",
-          product: "Acer Predator Helio 300",
+          product:
+            "Ultra-High-Performance 15.6-Inch 4K OLED Touchscreen Laptop",
           qty: 1,
           total: 200000,
           status: "Pending",
